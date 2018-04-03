@@ -31,6 +31,10 @@ public class Recipe implements Serializable{
 	public void setType(Type type){
 		this.type = type;
 	}
+	
+	public String toString(){
+		return this.recipeName;
+	}
 }
 
 

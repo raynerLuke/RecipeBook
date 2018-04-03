@@ -22,23 +22,25 @@ public class RecipeInput extends Recipe {
 	public String getDescription() {
 		return description;
 	}
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
 	public String getMethod() {
 		return method;
 	}
+	
 	public void setMethod(String method) {
 		this.method = method;
 	}
+	
 	public ArrayList<String> getIngredents() {
 		return ingredents;
 	}
+	
 	public void setIngredents(ArrayList<String> ingredents) {
 		this.ingredents = ingredents;
-	}
-	public String toString(){
-		return this.description + " " + this.method + " " + this.ingredents.toString();
 	}
     
 }

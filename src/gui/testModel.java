@@ -19,7 +19,7 @@ public class testModel {
 		//r1Ingredents.add("pepper");
 		
 		//Recipe r1 = new RecipeInput("cajen chicken", Type.INPUT, "sweet and spicy", "cook for 30 mins in oven", r1Ingredents);
-		//Recipe r2 = new RecipeURL("steak pie", Type.URL, "/local/c");
+		//Recipe r2 = new RecipeURL("steak pie", Type.URL, "http//:www.food.com");
 		
 		//RecipeController.getInstance().addRecipe(r1);
 		//RecipeController.getInstance().addRecipe(r2);

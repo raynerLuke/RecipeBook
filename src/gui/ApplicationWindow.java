@@ -15,10 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -28,25 +28,30 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Recipe;
+import model.RecipeInput;
+import model.RecipeURL;
+import model.Type;
 
 public class ApplicationWindow extends Application {
-
+    
 	private TextField nameField;
-	private TextField ageField;
+	private TextField descriptionField;
+	private TextField methodField;
+	private TextField ingredientsField;
+	private TextField urlField;
+	
 	private ListView<Recipe> lview;
 	private ObservableList<Recipe> observableView;
-	private ComboBox<String> genderComboBox;
 	private Button closeButton;
+	private BorderPane bp = new BorderPane();
 	
-	public void start(Stage stage) throws Exception 
-	{
+	public void start(Stage stage) throws Exception {
 		stage.setTitle("Recipe Book Controller");
-		BorderPane bp = new BorderPane();
-	
+		
 		bp.setTop(topPane());
 		bp.setLeft(leftPane());
 		bp.setRight(rightPane());
-		bp.setCenter(centerPane());
+		bp.setCenter(centerPane(null));
 		bp.setBottom(bottomPane());
 		
 		Scene firstScene = new Scene(bp, 780 , 410);
@@ -54,15 +59,13 @@ public class ApplicationWindow extends Application {
 		stage.show();
 	    
 		closeButton.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent e)
-		    {
+			public void handle(ActionEvent e){
 			   stage.close(); 	
 			}
 		});
     }
     
-	private Node topPane()
-	{
+	private Node topPane(){
 		HBox viewBox = new HBox();
 	    Text title = new Text("Recipe Book");
 		
@@ -74,8 +77,7 @@ public class ApplicationWindow extends Application {
 		return viewBox;
 	}
     
-	private Node leftPane()
-	{
+	private Node leftPane(){
 		GridPane pane = new GridPane();
 		lview = new ListView<Recipe>();
 		pane.add(lview, 0, 0);
@@ -93,12 +95,20 @@ public class ApplicationWindow extends Application {
 				+ "-fx-border-style : solid;"
 				+ "-fx-background-color : #8888AA");
 		
+		lview.setOnMouseClicked(new EventHandler<MouseEvent>(){
+			public void handle(MouseEvent e)
+			{
+				Recipe recipe = lview.getSelectionModel().getSelectedItem();
+			    centerPane(recipe);
+			    bp.setCenter(centerPane(recipe));
+			}
+		});
+		
 		return pane;
 	}
 	
 	
-	private Node rightPane()
-	{
+	private Node rightPane(){
 	    VBox vb = new VBox(20);
 	    vb.setPadding(new Insets(20,25,10,20));
 	    vb.setStyle("-fx-background-color : #8888AA");
@@ -112,8 +122,7 @@ public class ApplicationWindow extends Application {
 	    addButton.setPrefSize(120, 25);
 	    
 	    addButton.setOnAction(new EventHandler<ActionEvent>(){
-            public void handle(ActionEvent e) 
-            {
+            public void handle(ActionEvent e) {
 			    /*String nameEntered = nameField.getText();
 			    int ageEntered = Integer.parseInt(ageField.getText());			    
 			    String genderEntered = genderComboBox.getSelectionModel().getSelectedItem().toString();
@@ -132,8 +141,7 @@ public class ApplicationWindow extends Application {
 	    });
 	    
 	    saveButton.setOnAction(new EventHandler<ActionEvent>(){
-	    	public void handle(ActionEvent e) 
-			{
+	    	public void handle(ActionEvent e) {
 	    		RecipeController.getInstance().SaveToFile();
 	    		
 	    		Alert saveAlert = new Alert(AlertType.INFORMATION);
@@ -144,11 +152,11 @@ public class ApplicationWindow extends Application {
 	    });
 	    
 	    loadButton.setOnAction(new EventHandler<ActionEvent>(){
-	    	public void handle(ActionEvent e)
-	    	{
+	    	public void handle(ActionEvent e){
 	    	    try {
 					RecipeController.getInstance().LoadFromFile();
-				} catch (ClassNotFoundException e1) {
+				} 
+	    	    catch (ClassNotFoundException e1){
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -166,46 +174,45 @@ public class ApplicationWindow extends Application {
 	    return vb;
 	}
 	
-	private Node centerPane()
-	{
-		GridPane pane = new GridPane();
-		GridPane innerPane = new GridPane();
+	private Node centerPane(Recipe recipe){
 		
-		pane.setAlignment(Pos.TOP_RIGHT);
-		pane.add(innerPane, 1, 1);
+		VBox pane = new VBox();
+		pane.setAlignment(Pos.TOP_LEFT);
+		pane.setPadding(new Insets(20,20,10,45));
 		pane.setStyle("-fx-background-color : #8888AA");
-		pane.setPadding(new Insets (20,10,20,10));
+        
+		Label nameLabel = new Label("Recipe :");
+		nameField = new TextField();
+		Label descriptionLabel = new Label("Description : ");
+		descriptionField = new TextField();
+		Label methodLabel = new Label("Cooking Method : ");
+		methodField = new TextField();
+		Label ingredientsLabel = new Label("Ingredients : ");
+		ingredientsField = new TextField();
+		Label urlLabel = new Label("Link to website");
+		urlField = new TextField();
 		
-		innerPane.setVgap(25);
-		innerPane.setHgap(5);
-		innerPane.setPadding(new Insets(25,20,80,20));
-		innerPane.setAlignment(Pos.TOP_RIGHT);
-		innerPane.setStyle("-fx-background-color : #8888AA;"
-				+ "-fx-border-style : solid;"
-				+ "-fx-border-width : 2;"
-				+ "-fx-border-color : black;");
-		
-		Label nameLabel = new Label("Name : ");
-		Label ageLabel = new Label("Age : ");
-		Label genderLabel = new Label("Gender : ");
-		this.nameField = new TextField();
-		this.ageField = new TextField();
-		
-		genderComboBox = new ComboBox<String>();
-		genderComboBox.getItems().addAll("Male", "Female");
-		
-		innerPane.add(nameLabel, 0 , 1);
-		innerPane.add(nameField, 1, 1);
-		innerPane.add(ageLabel, 0  ,2 );
-		innerPane.add(ageField, 1, 2);
-		innerPane.add(genderLabel, 0, 3);
-		innerPane.add(genderComboBox, 1, 3);
-	   
+	    if(recipe != null){
+	    	if(recipe.getType() == Type.INPUT){
+		        RecipeInput recipeinput = (RecipeInput) recipe;
+	    		nameField.setText(recipe.getRecipeName());
+		        descriptionField.setText(recipeinput.getDescription());
+		        methodField.setText(recipeinput.getMethod());
+		        ingredientsField.setText(recipeinput.getIngredents().toString());
+		        pane.getChildren().addAll(nameLabel,nameField,descriptionLabel,descriptionField,
+		        		methodLabel,methodField,ingredientsLabel,ingredientsField);
+	    	}
+	    	else{
+	    		RecipeURL recipeurl = (RecipeURL) recipe;
+	    		nameField.setText(recipe.getRecipeName());
+	    		urlField.setText(recipeurl.getFileLocation());
+	    		pane.getChildren().addAll(nameLabel,nameField,urlLabel,urlField);
+	    	}
+		}
 		return pane;
 	}
 	
-	public Node bottomPane()
-	{
+	public Node bottomPane(){
 		HBox hb = new HBox();
 	    this.closeButton  = new Button("Close");
 		closeButton.setPrefSize(120, 25);
@@ -219,8 +226,7 @@ public class ApplicationWindow extends Application {
 	}
 	
 	
-	public static void main(String[] args)
-	{
+	public static void main(String[] args){
 	    ApplicationWindow appWindow = new ApplicationWindow();
 		Application.launch(args);
 	}

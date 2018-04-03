@@ -22,5 +22,4 @@ public class RecipesList implements Serializable{
 	public void deleteRecipe(Recipe recipe){
 		this.recipes.remove(recipe);
 	}
-	
 }
