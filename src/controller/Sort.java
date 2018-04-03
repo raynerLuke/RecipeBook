@@ -10,7 +10,7 @@ public class Sort {
 	
 	public static final Comparator<Recipe> compareName = new Comparator<Recipe>(){
 		public int compare(Recipe p1, Recipe p2){
-			value = p1.getName().compareTo(p2.getName());
+			value = p1.getRecipeName().compareTo(p2.getRecipeName());
 			return  value;
 		}
 	};

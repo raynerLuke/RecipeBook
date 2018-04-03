@@ -1,43 +1,36 @@
 package model;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Recipe {
-    
-	private String name;
-	private String description;
-	private String method;
-	private ArrayList<String> ingredents = new ArrayList<String>();
+public class Recipe implements Serializable{
 	
-	public Recipe(String name, String description, String method, ArrayList<String> ingredents){
-		this.name = name;
-		this.description = description;
-		this.method = method;
-		this.ingredents = ingredents;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private String recipeName;
+	private Type type;
+	
+	public Recipe(String recipeName, Type type){
+		this.recipeName = recipeName;
+		this.type = type;
 	}
-	public String getName() {
-		return name;
+	
+	public String getRecipeName() {
+		return recipeName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setRecipeName(String recipeName) {
+		this.recipeName = recipeName;
 	}
-	public String getDescription() {
-		return description;
+	
+	public Type getType(){
+		return this.type;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	
+	public void setType(Type type){
+		this.type = type;
 	}
-	public String getMethod() {
-		return method;
-	}
-	public void setMethod(String method) {
-		this.method = method;
-	}
-	public ArrayList<String> getIngredents() {
-		return ingredents;
-	}
-	public void setIngredents(ArrayList<String> ingredents) {
-		this.ingredents = ingredents;
-	}
-    
 }
+
+
