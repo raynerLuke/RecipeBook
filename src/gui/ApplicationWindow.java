@@ -39,7 +39,7 @@ public class ApplicationWindow extends Application {
 	private TextField methodField;
 	private TextField ingredientsField;
 	private TextField urlField;
-	
+	private Recipe recipe;
 	private ListView<Recipe> lview;
 	private ObservableList<Recipe> observableView;
 	private Button closeButton;
@@ -98,7 +98,7 @@ public class ApplicationWindow extends Application {
 		lview.setOnMouseClicked(new EventHandler<MouseEvent>(){
 			public void handle(MouseEvent e)
 			{
-				Recipe recipe = lview.getSelectionModel().getSelectedItem();
+				recipe = lview.getSelectionModel().getSelectedItem();
 			    centerPane(recipe);
 			    bp.setCenter(centerPane(recipe));
 			}
@@ -142,6 +142,9 @@ public class ApplicationWindow extends Application {
 	    
 	    saveButton.setOnAction(new EventHandler<ActionEvent>(){
 	    	public void handle(ActionEvent e) {
+	    		
+	    		RecipeController.getInstance().removeRecipe(recipe);
+	    		RecipeController.getInstance().addRecipe(recipe);
 	    		RecipeController.getInstance().SaveToFile();
 	    		
 	    		Alert saveAlert = new Alert(AlertType.INFORMATION);
@@ -194,7 +197,8 @@ public class ApplicationWindow extends Application {
 		
 	    if(recipe != null){
 	    	if(recipe.getType() == Type.INPUT){
-		        RecipeInput recipeinput = (RecipeInput) recipe;
+		        
+	    		RecipeInput recipeinput = (RecipeInput) recipe;
 	    		nameField.setText(recipe.getRecipeName());
 		        descriptionField.setText(recipeinput.getDescription());
 		        methodField.setText(recipeinput.getMethod());
