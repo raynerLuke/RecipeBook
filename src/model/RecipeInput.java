@@ -10,9 +10,9 @@ public class RecipeInput extends Recipe {
 	private static final long serialVersionUID = 1L;
 	private String description;
 	private String method;
-	private ArrayList<String> ingredents = new ArrayList<String>();
+	private String ingredents;
 	
-	public RecipeInput(String recipeName, Type type, String description, String method, ArrayList<String> ingredents){
+	public RecipeInput(String recipeName, Type type, String description, String method, String ingredents){
 		super(recipeName, type);
 		this.description = description;
 		this.method = method;
@@ -35,11 +35,11 @@ public class RecipeInput extends Recipe {
 		this.method = method;
 	}
 	
-	public ArrayList<String> getIngredents() {
+	public String getIngredents() {
 		return ingredents;
 	}
 	
-	public void setIngredents(ArrayList<String> ingredents) {
+	public void setIngredents(String ingredents) {
 		this.ingredents = ingredents;
 	}
     

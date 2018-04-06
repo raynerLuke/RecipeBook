@@ -1,5 +1,6 @@
 package controller;
 
+
 import java.util.ArrayList;
 import Perssistor.FilePersistor;
 import model.Recipe;
@@ -7,8 +8,8 @@ import model.RecipesList;
 
 public class RecipeController {
     
+    private RecipesList recipesList;
 	private static RecipeController instance;
-	private RecipesList recipesList;
 	private FilePersistor fp = new FilePersistor();
 	
 	private RecipeController(){
@@ -23,19 +24,23 @@ public class RecipeController {
 	}
 	
 	public void addRecipe(Recipe recipe){
-		recipesList.addRecipe(recipe);
+		this.recipesList.add(recipe);
 	}
 	
 	public void removeRecipe(Recipe recipe){
-		recipesList.deleteRecipe(recipe);
+		this.recipesList.remove(recipe);
 	}
 	
 	public ArrayList<Recipe> getAllRecipes(){
 		return recipesList.getAllRecipes();
 	}
 	
+	public void updateRecipe(Recipe recipeOld, Recipe recipeNew) {
+		this.recipesList.update(recipeOld, recipeNew);	
+	}
+	
 	public void SaveToFile(){
-		fp.save(recipesList);
+		fp.save(this.recipesList);
 	}
 	
 	public void LoadFromFile() throws ClassNotFoundException{

@@ -15,7 +15,7 @@ public class FilePersistor {
 		try{
 		        //Write to disk with FileOutputStream
 				FileOutputStream f_out = new 
-					FileOutputStream("myobject.data");
+					FileOutputStream("myobject.data2");
 
 				// Write object with ObjectOutputStream
 				ObjectOutputStream obj_out = new
@@ -33,7 +33,7 @@ public class FilePersistor {
 		try{ 
 			// Read from disk using FileInputStream
 			FileInputStream f_in = new 
-			    FileInputStream("myobject.data");
+			    FileInputStream("myobject.data2");
 
 			// Read object using ObjectInputStream
 			ObjectInputStream obj_in = 
